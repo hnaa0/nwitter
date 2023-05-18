@@ -1,8 +1,11 @@
+import { authService } from "fBase";
 import React, { useState } from "react";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newAccount, seteNewAccount] = useState(true);
+  const [error, setError] = useState("");
 
   const onChange = (e) => {
     const {
@@ -15,8 +18,25 @@ export default function Auth() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    try {
+      let data;
+      if (newAccount) {
+        data = await authService.createUserWithEmailAndPassword(
+          email,
+          password
+        );
+      } else {
+        data = await authService.signInWithEmailAndPassword(email, password);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const toggleAccount = () => {
+    seteNewAccount((prev) => !prev);
   };
 
   return (
@@ -32,16 +52,22 @@ export default function Auth() {
         />
         <input
           name="password"
-          type="text"
+          type="password"
           placeholder="Password"
           required
           value={password}
           onChange={onChange}
         />
-        <input type="submit" value="Log In" />
+        <input type="submit" value={newAccount ? "Create Account" : "Log In"} />
+        {error}
       </form>
-      <button>Continue with Google</button>
-      <button>Continue with Github</button>
+      <span onClick={toggleAccount}>
+        {newAccount ? "Sign In" : "Create Account"}
+      </span>
+      <div>
+        <button>Continue with Google</button>
+        <button>Continue with Github</button>
+      </div>
     </div>
   );
 }
