@@ -5,6 +5,7 @@ import { authService } from "fBase";
 function App() {
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userObj, setUserObj] = useState(null);
 
   // authService.currentUser는 유저가 로그인되었는지 알 수 없음.
   // 왜냐하면 firebase가 실행되기 전에 app이 로딩되기 때문.
@@ -15,6 +16,7 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
+        setUserObj(user);
       } else {
         setIsLoggedIn(false);
       }
@@ -24,7 +26,11 @@ function App() {
 
   return (
     <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} /> : "Initializing.."}
+      {init ? (
+        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+      ) : (
+        "Initializing.."
+      )}
       <footer>&copy; Nwitter {new Date().getFullYear()}</footer>
     </>
   );

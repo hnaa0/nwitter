@@ -1,14 +1,50 @@
 import { dbService } from "fBase";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Home({ userObj }) {
   const [nweet, setNweet] = useState("");
+  const [nweets, setNweets] = useState([]);
+
+  // 🔎 nweets를 가져오는 방법1
+  // // async 사용을 위해 함수로
+  // const getNweets = async () => {
+  //   // collection.get()은 querysnapshot을 리턴
+  //   const dbNweets = await dbService
+  //     .collection("nweets")
+  //     .orderBy("createdAt")
+  //     .get();
+  //   dbNweets.forEach((document) => {
+  //     const nweetObj = {
+  //       ...document.data(),
+  //       id: document.id,
+  //     };
+  //     setNweets((prev) => [nweetObj, ...prev]);
+  //   });
+  // };
+  // useEffect(() => {
+  //   getNweets();
+  // }, []);
+
+  // 🔎 nweets를 가져오는 방법2
+  useEffect(() => {
+    dbService
+      .collection("nweets")
+      .orderBy("createdAt", "desc")
+      .onSnapshot((snapshot) => {
+        const nweetArr = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setNweets(nweetArr);
+      });
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     await dbService.collection("nweets").add({
-      nweet,
-      createAt: Date.now(),
+      text: nweet,
+      createdAt: Date.now(),
+      createrId: userObj.uid,
     });
     setNweet("");
   };
@@ -33,6 +69,13 @@ export default function Home() {
         />
         <input type="submit" value="Nweet" maxLength={120} />
       </form>
+      <div>
+        {nweets.map((nweet) => (
+          <div key={nweet.id}>
+            <h4>{nweet.text}</h4>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
