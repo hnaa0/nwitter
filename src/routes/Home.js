@@ -1,11 +1,12 @@
-import { dbService } from "fBase";
+import { dbService, storageService } from "fBase";
 import React, { useEffect, useState, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Nweet from "components/Nweet";
 
 export default function Home({ userObj }) {
   const [nweet, setNweet] = useState("");
   const [nweets, setNweets] = useState([]);
-  const [attachment, setAttachment] = useState();
+  const [attachment, setAttachment] = useState("");
   const $fileInput = useRef();
 
   // 🔎 nweets를 가져오는 방법1
@@ -44,12 +45,24 @@ export default function Home({ userObj }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await dbService.collection("nweets").add({
+    let attachmentUrl = "";
+    if (attachment !== "") {
+      const attachmentRef = storageService
+        .ref()
+        .child(`${userObj.uid}/${uuidv4()}`);
+      const res = await attachmentRef.putString(attachment, "data_url");
+      attachmentUrl = await res.ref.getDownloadURL();
+    }
+    const nweetObj = {
       text: nweet,
       createdAt: Date.now(),
       createrId: userObj.uid,
-    });
+      attachmentUrl,
+    };
+
+    await dbService.collection("nweets").add(nweetObj);
     setNweet("");
+    setAttachment("");
   };
 
   const onChange = (e) => {
@@ -77,7 +90,7 @@ export default function Home({ userObj }) {
   };
 
   const onClearAttachment = () => {
-    setAttachment(null);
+    setAttachment("");
     $fileInput.current.value = null;
   };
 
