@@ -56,7 +56,7 @@ export default function Home({ userObj }) {
     const nweetObj = {
       text: nweet,
       createdAt: Date.now(),
-      createrId: userObj.uid,
+      creatorId: userObj.uid,
       attachmentUrl,
     };
 
@@ -123,7 +123,7 @@ export default function Home({ userObj }) {
           <Nweet
             key={nweet.id}
             nweetObj={nweet}
-            isOwner={nweet.createrId === userObj.uid}
+            isOwner={nweet.creatorId === userObj.uid}
           />
         ))}
       </div>
