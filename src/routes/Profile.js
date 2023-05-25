@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Nweet from "components/Nweet";
 
-export default function Profile({ userObj }) {
+export default function Profile({ refreshUser, userObj }) {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const [profilePhoto, setProfilePhoto] = useState("");
   const [myNweets, setMyNweets] = useState([]);
@@ -57,6 +57,8 @@ export default function Profile({ userObj }) {
         photoURL: photoUrl,
       });
     }
+
+    refreshUser();
   };
 
   const onFileChange = (e) => {
