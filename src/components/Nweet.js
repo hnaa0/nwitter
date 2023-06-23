@@ -53,7 +53,12 @@ export default function Nweet({ nweetObj, isOwner }) {
         <>
           <h4>{nweetObj.text}</h4>
           {nweetObj.attachmentUrl && (
-            <img src={nweetObj.attachmentUrl} width="50px" height="50px" />
+            <img
+              src={nweetObj.attachmentUrl}
+              alt="이미지"
+              width="50px"
+              height="50px"
+            />
           )}
           {isOwner && (
             <>

@@ -84,13 +84,14 @@ export default function Profile({ refreshUser, userObj }) {
 
   useEffect(() => {
     getMyNweets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <div>
         {userObj.photoURL && (
-          <img src={userObj.photoURL} width="50px" height="50px" />
+          <img src={userObj.photoURL} alt="이미지" width="50px" height="50px" />
         )}
         <h2>hello, {userObj.displayName}</h2>
         <form onSubmit={onSubmit}>

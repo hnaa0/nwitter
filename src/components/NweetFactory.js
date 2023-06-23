@@ -77,7 +77,7 @@ export default function NweetFactory({ userObj }) {
       <input type="submit" value="Nweet" maxLength={120} />
       {attachment && (
         <div>
-          <img src={attachment} width="50px" height="50px" />
+          <img src={attachment} alt="이미지" width="50px" height="50px" />
           <button onClick={onClearAttachment}>Clear</button>
         </div>
       )}

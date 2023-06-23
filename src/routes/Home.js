@@ -2,7 +2,6 @@ import { dbService } from "fBase";
 import React, { useEffect, useState } from "react";
 import Nweet from "components/Nweet";
 import NweetFactory from "components/NweetFactory";
-import userEvent from "@testing-library/user-event";
 
 export default function Home({ userObj }) {
   const [nweets, setNweets] = useState([]);
