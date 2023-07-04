@@ -2,6 +2,7 @@ import { dbService } from "fBase";
 import React, { useEffect, useState } from "react";
 import Nweet from "components/Nweet";
 import NweetFactory from "components/NweetFactory";
+import styled from "styled-components";
 
 export default function Home({ userObj }) {
   const [nweets, setNweets] = useState([]);
@@ -41,7 +42,7 @@ export default function Home({ userObj }) {
   }, []);
 
   return (
-    <div>
+    <Container>
       <NweetFactory userObj={userObj} />
       <div>
         {nweets.map((nweet) => (
@@ -52,6 +53,10 @@ export default function Home({ userObj }) {
           />
         ))}
       </div>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  width: 375px;
+`;
