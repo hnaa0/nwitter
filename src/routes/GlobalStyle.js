@@ -22,6 +22,13 @@ ${reset}
 
 body {
     background-color: var(--color-navy-500);
+    color: white;
+}
+
+a {
+    color:inherit;
+    text-decoration:none;
+
 }
 
 `;
