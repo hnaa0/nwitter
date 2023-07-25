@@ -44,7 +44,7 @@ export default function Home({ userObj }) {
   return (
     <Container>
       <NweetFactory userObj={userObj} />
-      <div>
+      <NweetBox>
         {nweets.map((nweet) => (
           <Nweet
             key={nweet.id}
@@ -52,11 +52,15 @@ export default function Home({ userObj }) {
             isOwner={nweet.creatorId === userObj.uid}
           />
         ))}
-      </div>
+      </NweetBox>
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 375px;
+`;
+
+const NweetBox = styled.div`
+  padding-top: 16px;
 `;

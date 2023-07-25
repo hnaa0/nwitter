@@ -57,8 +57,9 @@ export default App;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
+  jsutify-content: center;
+  width: 100%;
+  margin-top: 48px;
+  overflow-x: hidden;
 `;
