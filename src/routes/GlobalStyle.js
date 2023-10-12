@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
 ${reset}
 
 :root {
+    --color-red: #D00B00;
     --color-blue-100: #1d9bf0;
     --color-blue-200: #1A8CD8;
     --color-navy-100: #273340;

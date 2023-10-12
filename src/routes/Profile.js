@@ -13,8 +13,10 @@ export default function Profile({ refreshUser, userObj }) {
   const $fileInput = useRef();
 
   const onLogOutClick = () => {
-    authService.signOut();
-    navigate("/");
+    if (window.confirm("로그아웃하시겠습니까?")) {
+      authService.signOut();
+      navigate("/");
+    }
   };
 
   const onChange = (e) => {
@@ -109,28 +111,30 @@ export default function Profile({ refreshUser, userObj }) {
             placeholder="Display name"
             maxLength={20}
           />
-          <FileInputLabel htmlFor="fileInput">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-image"
-              viewBox="0 0 16 16"
-            >
-              <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-              <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-            </svg>
-          </FileInputLabel>
-          <FileInput
-            id="fileInput"
-            ref={$fileInput}
-            onChange={onFileChange}
-            type="file"
-            accept="image/*"
-          />
-          <AttBtn onClick={onClearAttachment}>Clear</AttBtn>
-          <SubmitBtn type="submit" value="Update Profile" />
+          <BtnGroup>
+            <FileInputLabel htmlFor="fileInput">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-image"
+                viewBox="0 0 16 16"
+              >
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
+              </svg>
+            </FileInputLabel>
+            <FileInput
+              id="fileInput"
+              ref={$fileInput}
+              onChange={onFileChange}
+              type="file"
+              accept="image/*"
+            />
+            <AttBtn onClick={onClearAttachment}>Clear</AttBtn>
+            <SubmitBtn type="submit" value="Update Profile" />
+          </BtnGroup>
         </ProfileForm>
         <LogoutBtn onClick={onLogOutClick}>Log Out</LogoutBtn>
       </ProfileGroup>
@@ -195,6 +199,7 @@ const ProfileForm = styled.form`
   align-items: center;
   width: 80%;
   padding: 12px 0;
+  margin-bottom: 24px;
 `;
 
 const DisplayNameInput = styled(Input)`
@@ -207,6 +212,11 @@ const DisplayNameInput = styled(Input)`
     outline: none;
     border-bottom: 1px solid var(--color-blue-100);
   }
+`;
+
+const BtnGroup = styled.div`
+  display: flex;
+  width: 100%;
 `;
 
 const FileInputLabel = styled.label`
@@ -235,7 +245,14 @@ const FileInput = styled(Input)`
   overflow: hidden;
 `;
 
-const AttBtn = styled.button``;
+const AttBtn = styled.button`
+  height: 32px;
+  width: 100%;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  margin: 0 4px;
+`;
 
 const SubmitBtn = styled(Input)`
   background-color: var(--color-blue-100);
@@ -245,11 +262,13 @@ const SubmitBtn = styled(Input)`
 `;
 
 const LogoutBtn = styled.button`
+  width: 80px;
+  height: 32px;
   border: none;
-  font-weight: bold;
-  text-decoration: underline;
-  color: red;
-  background-color: var(--color-navy-500);
+  border-radius: 20px;
+  font-style: italic;
+  color: white;
+  background-color: var(--color-red);
   margin-left: auto;
   cursor: pointer;
 `;
